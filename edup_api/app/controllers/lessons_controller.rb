@@ -5,9 +5,8 @@ class LessonsController < ApplicationController
   def create
     course = Course.find(lesson_params[:course_id])
     lesson = PublisherService.create_lesson(course, lesson_params[:name])
+
     render json: {}, status: 201, location: course_url(course)
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
   end
 
   private

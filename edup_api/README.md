@@ -16,7 +16,7 @@ API for EdUp.
       - 201 Created | json: { token: <jwt> }
       - 404 NotFound
 
-## Courses
+## Courses and Lessons
   POST /courses
     { name: 'Ruby programming' }
     Authorization: <jwt>
@@ -46,7 +46,21 @@ API for EdUp.
       - 404 NotFound
       - 403 Forbidden
 
+  GET /courses/1234-uuid/lessons/123-lesson-uuid
+    Authorization: <jwt>
+    Response:
+      - 200 OK | json: { id: '123-lesson-uuid', name: 'Basics', course_id: '1234-uuid' }
+      - 404 NotFound
+      - 403 Forbidden
+
 ## Sessions
+  POST /sessions
+    { name: 'Web development', courses: ['1234', '4567'] }
+    Authorization: <jwt>
+    Response:
+      - 201 Created | location: 'http://host.com/sessions/1234-uuid'
+      - 403 Forbidden
+
   POST /sessions
     { name: 'Web development', courses: ['1234', '4567'] }
     Authorization: <jwt>

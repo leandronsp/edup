@@ -7,6 +7,11 @@ class CoursesController < ApplicationController
     render json: {}, status: 201, location: course_url(course)
   end
 
+  def show
+    course = Course.find(params[:id])
+    render json: course
+  end
+
   private
 
   def course_params

@@ -18,4 +18,19 @@ describe CoursesController, type: :controller do
       expect(response.location).to eq("http://test.host/courses/#{created.id}")
     end
   end
+
+  describe 'GET /course/:id' do
+    let(:course) { PublisherService.create_course('Ruby programming') }
+
+    it 'retrieves a course' do
+      get :show, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['name']).to eq('Ruby programming')
+    end
+
+    it 'returns 404' do
+      get :show, { params: { id: '111' }}
+      expect(response.code).to eq('404')
+    end
+  end
 end
