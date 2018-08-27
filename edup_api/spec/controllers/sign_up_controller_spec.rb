@@ -10,7 +10,7 @@ describe SignUpController, type: :controller do
     end
 
     it 'does not duplicate emails' do
-      User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
+      build_user
 
       post :create, params: {
         email: 'email@example.com', password: '111', password_confirmation: '111'

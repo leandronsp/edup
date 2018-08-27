@@ -1,5 +1,5 @@
-require 'rails_helper'
-
-RSpec.describe Lesson, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Lesson, type: :model do
+  it 'creates a lesson' do
+    expect(Lesson.create(name: 'Basics').name).to eq('Basics')
+  end
 end

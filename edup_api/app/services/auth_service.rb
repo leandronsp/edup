@@ -18,6 +18,7 @@ class AuthService
   def roles_for(token)
     data = JWTUtils.decode(token)
     user = User.find(data['user_id'])
+
     user.roles
   rescue ActiveRecord::RecordNotFound
     raise InvalidToken

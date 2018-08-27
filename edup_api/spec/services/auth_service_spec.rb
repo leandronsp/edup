@@ -1,9 +1,6 @@
 describe AuthService do
   describe '#authenticate' do
-    let(:user) do
-      User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
-    end
-
+    let(:user) { build_user }
     before { user.save }
 
     it 'authenticates valid credentials and returns a JWT' do
@@ -19,8 +16,6 @@ describe AuthService do
     end
 
     it 'does not authenticate wrong password' do
-      User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
-
       expect { described_class.authenticate('example@email.com', 'wrong') }
         .to raise_error(AuthService::InvalidCredentials)
     end

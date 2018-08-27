@@ -5,12 +5,7 @@ describe SessionsController, type: :controller do
   let(:courses_ids) { [course_a, course_b].map(&:id) }
 
   before do
-    publisher = User.create(email: 'publisher@example.com', password: '111', password_confirmation: '111')
-    role = RoleService.create_role('publisher')
-    RoleService.attach(role, publisher)
-
-    token = JWTUtils.encode({ user_id: publisher.id })
-    request.headers['Authorization'] = token
+    authenticate_as_publisher
   end
 
   describe 'POST /sessions' do
@@ -25,8 +20,7 @@ describe SessionsController, type: :controller do
     end
 
     it 'returns 403 Forbidden when user has not sufficient roles' do
-      student = User.create(email: 'student@example.com', password: '111', password_confirmation: '111')
-      request.headers['Authorization'] = JWTUtils.encode({ user_id: student.id })
+      authenticate_as_student
 
       post :create, params: { session: { name: 'Web development', courses: courses_ids }}
       expect(response.code).to eq('403')
@@ -43,8 +37,7 @@ describe SessionsController, type: :controller do
     end
 
     it 'returns 403 Forbidden when user has not sufficient roles' do
-      student = User.create(email: 'student@example.com', password: '111', password_confirmation: '111')
-      request.headers['Authorization'] = JWTUtils.encode({ user_id: student.id })
+      authenticate_as_student
 
       get :index
       expect(response.code).to eq('403')
@@ -71,9 +64,7 @@ describe SessionsController, type: :controller do
     end
 
     it 'student has access' do
-      student = User.create(email: 'student@example.com', password: '111', password_confirmation: '111')
-      request.headers['Authorization'] = JWTUtils.encode({ user_id: student.id })
-
+      authenticate_as_student
       session = PublisherService.create_session('Web development', [])
 
       get :show, { params: { id: session.id }}

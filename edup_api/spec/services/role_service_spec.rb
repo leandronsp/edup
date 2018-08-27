@@ -1,4 +1,6 @@
 describe RoleService do
+  let(:user) { build_user }
+
   describe '#create_role' do
     it 'creates a new role' do
       role = described_class.create_role('student')
@@ -24,7 +26,6 @@ describe RoleService do
 
   describe '#attach' do
     it 'attaches a role for a given user' do
-      user = User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
       expect(user.roles.size).to eq(0)
 
       role = described_class.create_role('publisher')
@@ -36,7 +37,6 @@ describe RoleService do
 
   describe '#detach' do
     it 'detaches a role for a given user' do
-      user = User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
       role = described_class.create_role('publisher')
       described_class.attach(role, user)
 
@@ -47,7 +47,6 @@ describe RoleService do
     end
 
     it 'detaches a role for a given user and keeps the other roles' do
-      user = User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
       described_class.attach(described_class.create_role('publisher'), user)
       described_class.attach(described_class.create_role('student'), user)
 

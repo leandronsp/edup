@@ -1,3 +1,5 @@
 describe Course, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'creates a course' do
+    expect(Course.create(name: 'Ruby').name).to eq('Ruby')
+  end
 end

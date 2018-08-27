@@ -2,12 +2,7 @@ describe LessonsController, type: :controller do
   let(:course) { PublisherService.create_course('Ruby programming') }
 
   before do
-    publisher = User.create(email: 'publisher@example.com', password: '111', password_confirmation: '111')
-    role = RoleService.create_role('publisher')
-    RoleService.attach(role, publisher)
-
-    token = JWTUtils.encode({ user_id: publisher.id })
-    request.headers['Authorization'] = token
+    authenticate_as_publisher
   end
 
   describe 'POST /courses/:course_id/lessons' do
@@ -48,7 +43,7 @@ describe LessonsController, type: :controller do
 
   describe 'GET /courses/:course_id/lessons/:id' do
     before do
-      course.lessons << Lesson.create(name: 'Basics')
+      PublisherService.create_lesson(course, 'Basics')
     end
 
     it 'retrieves the lesson information' do

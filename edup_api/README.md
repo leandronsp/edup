@@ -81,6 +81,7 @@ API for EdUp.
     Authorization: <jwt>
     Response:
       - 200 OK | json: { name: 'Web developmet', courses: [<courses>] }
+      - 404 NotFound
       - 403 Forbidden
 ```
 ### Testing

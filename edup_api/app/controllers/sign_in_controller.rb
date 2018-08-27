@@ -4,6 +4,7 @@ class SignInController < ApplicationController
   def create
     email, password = signin_params.values_at(:email, :password)
     token = AuthService.authenticate(email, password)
+
     render json: { token: token }, status: 201
   end
 

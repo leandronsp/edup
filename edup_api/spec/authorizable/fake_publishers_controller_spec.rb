@@ -17,12 +17,7 @@ describe PublishersController, type: :controller do
   end
 
   it 'performs the action' do
-    publisher = User.create(email: 'user@example.com', password: '111', password_confirmation: '111')
-    role = RoleService.create_role('publisher')
-    RoleService.attach(role, publisher)
-
-    token = JWTUtils.encode({ user_id: publisher.id })
-    request.headers['Authorization'] = token
+    authenticate_as_publisher
 
     get :test
     expect(response.code).to eq('200')
@@ -36,15 +31,14 @@ describe PublishersController, type: :controller do
   end
 
   it 'returns 403 Forbidden for invalid JWT' do
-    request.headers['Authorization'] = JWTUtils.encode({})
+    request.headers['Authorization'] = invalid_token
 
     get :test
     expect(response.code).to eq('403')
   end
 
   it 'returns 403 Forbidden when user has not sufficient roles' do
-    student = User.create(email: 'student@example.com', password: '111', password_confirmation: '111')
-    request.headers['Authorization'] = JWTUtils.encode({ user_id: student.id })
+    authenticate_as_student
 
     get :test
     expect(response.code).to eq('403')

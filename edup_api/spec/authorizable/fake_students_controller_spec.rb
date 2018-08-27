@@ -15,9 +15,7 @@ describe StudentsController, type: :controller do
   end
 
   it 'performs the action' do
-    user = User.create(email: 'user@example.com', password: '111', password_confirmation: '111')
-    token = JWTUtils.encode({ user_id: user.id })
-    request.headers['Authorization'] = token
+    authenticate_as_student
 
     get :test
     expect(response.code).to eq('200')
@@ -31,7 +29,7 @@ describe StudentsController, type: :controller do
   end
 
   it 'returns 403 Forbidden for invalid JWT' do
-    request.headers['Authorization'] = JWTUtils.encode({})
+    request.headers['Authorization'] = invalid_token
 
     get :test
     expect(response.code).to eq('403')
