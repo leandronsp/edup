@@ -22,5 +22,15 @@ module Authorizable
     user = User.find(data['user_id']) if data['user_id']
 
     raise InvalidToken if user.blank?
+    @current_user = user
+  end
+
+  def authorize?(role_name)
+    return false unless current_user
+    current_user.roles.map(&:name).include?(role_name)
+  end
+
+  def current_user
+    @current_user
   end
 end

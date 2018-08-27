@@ -2,6 +2,9 @@ describe CoursesController, type: :controller do
   let(:publisher) { User.create(email: 'publisher@example.com', password: '111', password_confirmation: '111') }
 
   before do
+    role = RoleService.create_role('publisher')
+    RoleService.attach(role, publisher)
+
     token = JWTUtils.encode({ user_id: publisher.id })
     request.headers['Authorization'] = token
   end
@@ -25,6 +28,14 @@ describe CoursesController, type: :controller do
 
     it 'returns 403 Forbidden for invalid JWT' do
       request.headers['Authorization'] = JWTUtils.encode({})
+
+      post :create, params: { course: { name: 'Ruby programming' }}
+      expect(response.code).to eq('403')
+    end
+
+    it 'returns 403 Forbidden when user has not sufficient roles' do
+      student = User.create(email: 'student@example.com', password: '111', password_confirmation: '111')
+      request.headers['Authorization'] = JWTUtils.encode({ user_id: student.id })
 
       post :create, params: { course: { name: 'Ruby programming' }}
       expect(response.code).to eq('403')
