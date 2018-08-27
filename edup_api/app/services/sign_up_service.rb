@@ -1,4 +1,6 @@
 class SignUpService
+  include Callable
+
   class AlreadyRegisteredError < StandardError
     def to_s; 'Already registered'; end
   end

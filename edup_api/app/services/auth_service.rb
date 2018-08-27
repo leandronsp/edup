@@ -1,4 +1,6 @@
 class AuthService
+  include Callable
+
   class InvalidToken < StandardError
     def to_s; 'Invalid token'; end
   end

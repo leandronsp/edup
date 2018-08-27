@@ -1,4 +1,6 @@
 class PublisherService
+  include Callable
+
   def create_course(name)
     Course.create(name: name)
   end

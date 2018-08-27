@@ -3,7 +3,7 @@ class SignInController < ApplicationController
 
   def create
     email, password = signin_params.values_at(:email, :password)
-    token = auth_service.authenticate(email, password)
+    token = AuthService.authenticate(email, password)
     render json: { token: token }, status: 201
   end
 
@@ -11,10 +11,6 @@ class SignInController < ApplicationController
 
   def signin_params
     params.permit(:email, :password)
-  end
-
-  def auth_service
-    AuthService.new
   end
 
   def not_found_error(error)

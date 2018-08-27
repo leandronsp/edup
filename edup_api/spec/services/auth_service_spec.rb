@@ -7,21 +7,21 @@ describe AuthService do
     before { user.save }
 
     it 'authenticates valid credentials and returns a JWT' do
-      token = subject.authenticate('email@example.com', '111')
+      token = described_class.authenticate('email@example.com', '111')
 
       data = JWTUtils.decode(token)
       expect(data['user_id']).to eq(user.id)
     end
 
     it 'does not authenticate email not found' do
-      expect { subject.authenticate('wrong@email.com', '222') }
+      expect { described_class.authenticate('wrong@email.com', '222') }
         .to raise_error(AuthService::InvalidCredentials)
     end
 
     it 'does not authenticate wrong password' do
       User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
 
-      expect { subject.authenticate('example@email.com', 'wrong') }
+      expect { described_class.authenticate('example@email.com', 'wrong') }
         .to raise_error(AuthService::InvalidCredentials)
     end
   end
@@ -38,14 +38,14 @@ describe AuthService do
 
     it 'retrieves roles for a given JWT' do
       token = JWTUtils.encode({ user_id: user.id })
-      roles = subject.roles_for(token)
+      roles = described_class.roles_for(token)
 
       expect(roles.size).to eq(1)
     end
 
     it 'raises an error when user does not exist' do
       token = JWTUtils.encode({ user_id: 'wrong id' })
-      expect { subject.roles_for(token) }.to raise_error(AuthService::InvalidToken)
+      expect { described_class.roles_for(token) }.to raise_error(AuthService::InvalidToken)
     end
   end
 end
