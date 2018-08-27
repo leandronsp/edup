@@ -6,4 +6,12 @@ class RoleService
   def delete_role(role)
     role.delete
   end
+
+  def attach(role, user)
+    user.roles << role
+  end
+
+  def detach(role, user)
+    user.roles.delete(role)
+  end
 end

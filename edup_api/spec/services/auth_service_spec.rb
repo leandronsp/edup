@@ -27,8 +27,16 @@ describe AuthService do
       User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
     end
 
-    xit 'retrieves roles for a given JWT' do
-      #subject.roles_for
+    before do
+      role = RoleService.new.create_role('student')
+      RoleService.new.attach(role, user)
+    end
+
+    it 'retrieves roles for a given JWT' do
+      token = JWTUtils.encode({ user_id: user.id })
+      roles = subject.roles_for(token)
+
+      expect(roles.size).to eq(1)
     end
   end
 end
