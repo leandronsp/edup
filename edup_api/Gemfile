@@ -35,6 +35,7 @@ group :development, :test do
   gem 'guard-rails'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
+  gem 'simplecov', require: false
 end
 
 group :development do

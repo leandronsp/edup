@@ -1,5 +1,4 @@
 # EdUp API
-
   POST /signup
     { email: 'email@example.com', password: '111', password_confirmation: '111' }
     Response:
@@ -11,3 +10,7 @@
     Response:
       - 201 Created | json: { token: <jwt> }
       - 404 NotFound
+
+### Testing
+  ./bin/rspec
+  open coverage/index.html
