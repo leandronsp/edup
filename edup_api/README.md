@@ -5,3 +5,9 @@
     Response:
       - 201 Created | json: {}
       - 409 Conflict | json: { message: <message> }
+
+  POST /signin
+    { email: 'email@example.com', password: '111' }
+    Response:
+      - 201 Created | json: { token: <jwt> }
+      - 404 NotFound

@@ -1,4 +1,6 @@
 class SignUpController < ApplicationController
+  rescue_from SignUpService::AlreadyRegisteredError, with: :conflict_error
+  rescue_from SignUpService::PasswordNotMatch, with: :conflict_error
 
   def create
     email, password, password_confirmation = signup_params.values_at(
@@ -16,5 +18,9 @@ class SignUpController < ApplicationController
 
   def signup_params
     params.permit(:email, :password, :password_confirmation)
+  end
+
+  def conflict_error(error)
+    render json: { message: error.message }, status: 409
   end
 end

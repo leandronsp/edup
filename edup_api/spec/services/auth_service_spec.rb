@@ -14,11 +14,15 @@ describe AuthService do
     end
 
     it 'does not authenticate email not found' do
-      expect(subject.authenticate('wrong@email.com', '111')).to eq(nil)
+      expect { subject.authenticate('wrong@email.com', '222') }
+        .to raise_error(AuthService::InvalidCredentials)
     end
 
     it 'does not authenticate wrong password' do
-      expect(subject.authenticate('email@example.com', 'wrong')).to eq(nil)
+      User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
+
+      expect { subject.authenticate('example@email.com', 'wrong') }
+        .to raise_error(AuthService::InvalidCredentials)
     end
   end
 
