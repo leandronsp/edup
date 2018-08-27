@@ -11,5 +11,10 @@ describe SignUpService do
       expect { subject.register('email@example.com', '222', '222') }
         .to raise_error(SignUpService::AlreadyRegisteredError)
     end
+
+    it 'validates password match' do
+      expect { subject.register('email@example.com', '111', '222') }
+        .to raise_error(SignUpService::PasswordNotMatch)
+    end
   end
 end
