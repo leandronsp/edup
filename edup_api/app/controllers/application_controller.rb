@@ -5,8 +5,4 @@ class ApplicationController < ActionController::API
   def error_conflict(error)
     render json: { message: error.message }, status: 409
   end
-
-  def current_user
-    @current_user
-  end
 end

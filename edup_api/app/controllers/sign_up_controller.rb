@@ -4,7 +4,7 @@ class SignUpController < ApplicationController
     email, password, password_confirmation = signup_params.values_at(
       :email, :password, :password_confirmation)
 
-    @current_user = signup_service.register(email, password, password_confirmation)
+    signup_service.register(email, password, password_confirmation)
     head :created
   end
 
