@@ -24,6 +24,13 @@ API for EdUp.
       - 201 Created | location: 'http://host.com/courses/1234-uuid'
       - 403 Forbidden
 
+  POST /courses/1234-uuid/lessons
+    { name: 'Basics' }
+    Authorization: <jwt>
+    Response:
+      - 201 Created | location: 'http://host.com/courses/1234-uuid'
+      - 403 Forbidden
+
 ### Testing
   ./bin/rspec
   open coverage/index.html

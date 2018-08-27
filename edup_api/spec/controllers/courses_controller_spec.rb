@@ -1,7 +1,6 @@
 describe CoursesController, type: :controller do
-  let(:publisher) { User.create(email: 'publisher@example.com', password: '111', password_confirmation: '111') }
-
   before do
+    publisher = User.create(email: 'publisher@example.com', password: '111', password_confirmation: '111')
     role = RoleService.create_role('publisher')
     RoleService.attach(role, publisher)
 
