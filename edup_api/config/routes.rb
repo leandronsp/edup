@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   post '/signup', to: 'sign_up#create'
   post '/signin', to: 'sign_in#create'
 
-  resources :courses, only: [:create, :show]
+  resources :courses, only: [:create, :show] do
+    resources :lessons, only: [:create]
+  end
 end
