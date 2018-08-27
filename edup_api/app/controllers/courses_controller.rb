@@ -1,9 +1,8 @@
 class CoursesController < ApplicationController
   include Authorizable
+  before_action :ensure_user_is_publisher
 
   def create
-    raise Authorizable::InvalidToken unless authorize?('publisher')
-
     course = PublisherService.create_course(course_params[:name])
     render json: {}, status: 201, location: course_url(course)
   end

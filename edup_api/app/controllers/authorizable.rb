@@ -25,6 +25,10 @@ module Authorizable
     @current_user = user
   end
 
+  def ensure_user_is_publisher
+    raise InvalidToken unless authorize?('publisher')
+  end
+
   def authorize?(role_name)
     return false unless current_user
     current_user.roles.map(&:name).include?(role_name)
