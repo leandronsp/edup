@@ -1,4 +1,6 @@
 class CoursesController < ApplicationController
+  include Authorizable
+
   def create
     course = PublisherService.create_course(course_params[:name])
     render json: {}, status: 201, location: course_url(course)
