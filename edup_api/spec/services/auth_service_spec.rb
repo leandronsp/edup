@@ -9,8 +9,8 @@ describe AuthService do
     it 'authenticates valid credentials and returns a JWT' do
       token = subject.authenticate('email@example.com', '111')
 
-      body = JWT.decode(token, nil, false)[0]
-      expect(body['user_id']).to eq(user.id)
+      data = JWTUtils.decode(token)
+      expect(data['user_id']).to eq(user.id)
     end
 
     it 'does not authenticate email not found' do
@@ -19,6 +19,16 @@ describe AuthService do
 
     it 'does not authenticate wrong password' do
       expect(subject.authenticate('email@example.com', 'wrong')).to eq(nil)
+    end
+  end
+
+  describe '#roles_for' do
+    let(:user) do
+      User.create(email: 'email@example.com', password: '111', password_confirmation: '111')
+    end
+
+    xit 'retrieves roles for a given JWT' do
+      #subject.roles_for
     end
   end
 end

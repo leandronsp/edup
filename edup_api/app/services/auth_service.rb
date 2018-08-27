@@ -4,6 +4,6 @@ class AuthService
     return nil unless user
     return nil unless user.authenticate(password)
 
-    JWT.encode({ user_id: user.id }, nil, 'none')
+    JWTUtils.encode({ user_id: user.id })
   end
 end
