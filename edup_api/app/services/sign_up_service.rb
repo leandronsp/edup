@@ -1,6 +1,5 @@
 class SignUpService
-  class AlreadyRegisteredError < StandardError
-  end
+  class AlreadyRegisteredError < StandardError; end
 
   def register(email, password, password_confirmation)
     if user = User.find_by(email: email)

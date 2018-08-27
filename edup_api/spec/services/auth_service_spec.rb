@@ -38,5 +38,10 @@ describe AuthService do
 
       expect(roles.size).to eq(1)
     end
+
+    it 'raises an error when user does not exist' do
+      token = JWTUtils.encode({ user_id: 'wrong id' })
+      expect { subject.roles_for(token) }.to raise_error(AuthService::InvalidToken)
+    end
   end
 end
