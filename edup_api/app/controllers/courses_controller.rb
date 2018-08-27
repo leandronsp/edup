@@ -12,6 +12,10 @@ class CoursesController < ApplicationController
     render json: course
   end
 
+  def index
+    render json: Course.all
+  end
+
   private
 
   def course_params
