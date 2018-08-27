@@ -1,5 +1,4 @@
 class PublisherService
-
   def create_course(name)
     Course.create(name: name)
   end
