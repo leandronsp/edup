@@ -11,6 +11,7 @@ describe LessonsController, type: :controller do
   describe 'POST /courses/:course_id/lessons' do
     it 'creates a new lesson under a course and returns the course location' do
       course = PublisherService.create_course('Ruby programming')
+
       post :create,
         params: { course_id: course.id, lesson: { name: 'Basics', course_id: course.id }}
 
@@ -18,6 +19,13 @@ describe LessonsController, type: :controller do
 
       expect(response.location).to eq("http://test.host/courses/#{course.id}")
       expect(course.lessons[0].name).to eq('Basics')
+    end
+
+    it 'returns 404 when course is not found' do
+      post :create,
+        params: { course_id: 'not found', lesson: { name: 'Basics', course_id: 'not found' }}
+
+      expect(response.code).to eq('404')
     end
   end
 end
