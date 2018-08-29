@@ -17,7 +17,9 @@ module Authorizable
   def check_authorization
     raise MissingToken if request.headers['Authorization'].blank?
 
-    token = request.headers['Authorization']
+    token = request.headers['Authorization'].split(' ')[1]
+    raise MissingToken unless token
+
     data = JWTUtils.decode(token)
     user = User.find(data['user_id']) if data['user_id']
 

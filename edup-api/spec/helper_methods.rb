@@ -47,6 +47,6 @@ module HelperMethods
   end
 
   def set_request_token(token)
-    request.headers['Authorization'] = token
+    request.headers['Authorization'] = "Bearer #{token}"
   end
 end
