@@ -12,7 +12,8 @@ class AuthService
     user = User.find_by(email: email)
     raise InvalidCredentials if user.blank? || !user.authenticate(password)
 
-    [JWTUtils.encode({ user_id: user.id }), user]
+    role = user.roles.first.try(:name)
+    [JWTUtils.encode({ user_id: user.id, roles: role }), user]
   end
 
   def roles_for(token)

@@ -8,6 +8,17 @@ describe AuthService do
 
       data = JWTUtils.decode(token)
       expect(data['user_id']).to eq(user.id)
+      expect(data['roles']).to eq(nil)
+      expect(authenticated_user.id).to eq(user.id)
+    end
+
+    it 'stores the roles on the JWT along with user _id' do
+      user = build_user(email: 'publisher@example.com', role: 'publisher')
+      token, authenticated_user = described_class.authenticate('publisher@example.com', '111')
+
+      data = JWTUtils.decode(token)
+      expect(data['user_id']).to eq(user.id)
+      expect(data['roles']).to eq('publisher')
       expect(authenticated_user.id).to eq(user.id)
     end
 
