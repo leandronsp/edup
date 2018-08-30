@@ -43,8 +43,11 @@ describe CoursesController, type: :controller do
     let(:course) { PublisherService.create_course('Ruby programming') }
 
     it 'deletes a course' do
-      delete :destroy, { params: { id: course.id }}
+      _id = course.id
+
+      delete :destroy, { params: { id: _id }}
       expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['id']).to eq(_id)
     end
   end
 
