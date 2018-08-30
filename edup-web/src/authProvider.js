@@ -1,15 +1,20 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR } from 'react-admin';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS } from 'react-admin';
+import decodeJwt from 'jwt-decode';
 
 const setItems = (id, email, token) => {
   localStorage.setItem('id', id);
   localStorage.setItem('email', email);
   localStorage.setItem('token', token);
+
+  const decodedToken = decodeJwt(token);
+  localStorage.setItem('role', decodedToken.roles);
 }
 
 const removeItems = () => {
   localStorage.removeItem('id');
   localStorage.removeItem('email');
   localStorage.removeItem('token');
+  localStorage.removeItem('role');
 }
 
 export default (type, params) => {
@@ -44,6 +49,11 @@ if (type === AUTH_LOGIN) {
             return Promise.reject();
         }
         return Promise.resolve();
+    }
+
+    if (type === AUTH_GET_PERMISSIONS) {
+        const role = localStorage.getItem('role');
+        return role ? Promise.resolve(role) : Promise.reject();
     }
 
     return Promise.resolve();

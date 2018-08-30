@@ -13,8 +13,10 @@ import dataProvider from './dataProvider';
 
 const App = () => (
   <Admin title="EdUp" dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider}>
-    <Resource name="users" list={UserList} icon={UserIcon} />
-    <Resource name="courses" list={CourseList} icon={BookIcon} />
+    {permissions => [
+      permissions === 'publisher' ? <Resource name="users" list={UserList} icon={UserIcon} /> : null,
+      <Resource name="courses" list={CourseList} icon={BookIcon} />
+    ]}
   </Admin>
 )
 
