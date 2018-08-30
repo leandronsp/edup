@@ -1,12 +1,12 @@
 import React from 'react';
 import { List, Datagrid, TextField,
-  EditButton, SimpleForm, Create, TextInput } from 'react-admin';
+  DeleteButton, SimpleForm, Create, TextInput } from 'react-admin';
 
 export const CourseList = (props) => (
     <List title="All Courses" {...props} >
         <Datagrid>
             <TextField source="name" />
-            <EditButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );
