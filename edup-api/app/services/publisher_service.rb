@@ -13,8 +13,8 @@ class PublisherService
     Lesson.create(name: name, course: course)
   end
 
-  def update_course_name(course, name)
-    course.update_attribute(:name, name)
+  def update_course(course, params)
+    course.update_attribute(:name, params[:name])
   end
 
   def update_lesson_name(lesson, name)
@@ -27,5 +27,9 @@ class PublisherService
 
   def update_session_name(session, name)
     session.update_attribute(:name, name)
+  end
+
+  def delete_course(course)
+    course.destroy
   end
 end

@@ -16,6 +16,18 @@ class CoursesController < ApplicationController
     render json: Course.all
   end
 
+  def destroy
+    course = Course.find(params[:id])
+    PublisherService.delete_course(course)
+    head :ok
+  end
+
+  def update
+    course = Course.find(params[:id])
+    PublisherService.update_course(course, course_params)
+    head :ok
+  end
+
   private
 
   def course_params

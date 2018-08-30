@@ -38,4 +38,23 @@ describe CoursesController, type: :controller do
       expect(response.code).to eq('404')
     end
   end
+
+  describe 'DELETE /course/:id' do
+    let(:course) { PublisherService.create_course('Ruby programming') }
+
+    it 'deletes a course' do
+      delete :destroy, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+    end
+  end
+
+  describe 'UPDATE /course/:id' do
+    let(:course) { PublisherService.create_course('Ruby programming') }
+
+    it 'deletes a course' do
+      put :update, { params: { id: course.id, course: { name: 'Java programming' }}}
+      expect(response.code).to eq('200')
+      expect(course.reload.name).to eq('Java programming')
+    end
+  end
 end

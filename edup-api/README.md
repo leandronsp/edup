@@ -37,6 +37,21 @@ API for EdUp.
       - 200 OK | json: { id: '1234-uuid', name: 'Ruby programming' }
       - 404 NotFound
       - 403 Forbidden
+
+  DELETE /courses/1234-uuid
+    Authorization: <jwt>
+    Response:
+      - 200 OK
+      - 404 NotFound
+      - 403 Forbidden
+
+  UPDATE /courses/1234-uuid
+    { course: { name: 'Ruby programming' }}
+    Authorization: <jwt>
+    Response:
+      - 200 OK
+      - 404 NotFound
+      - 403 Forbidden
 ```
 ## Lessons
 ```

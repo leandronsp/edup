@@ -38,15 +38,6 @@ describe PublisherService do
     end
   end
 
-  describe '#update_course_name' do
-    let(:course) { described_class.create_course('Ruby programming') }
-
-    it 'updates the course name' do
-      described_class.update_course_name(course, 'NodeJS crash course')
-      expect(course.reload.name).to eq('NodeJS crash course')
-    end
-  end
-
   describe '#update_lesson_name' do
     let(:course) { described_class.create_course('Ruby programming') }
     let(:lesson) { described_class.create_lesson(course, 'Basics') }
@@ -77,6 +68,24 @@ describe PublisherService do
     it 'updates the session name' do
       described_class.update_session_name(session, 'Web development')
       expect(session.reload.name).to eq('Web development')
+    end
+  end
+
+  describe '#delete_course' do
+    let(:course) { described_class.create_course('Ruby programming') }
+
+    it 'destroys the course' do
+      described_class.delete_course(course)
+      expect { course.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe '#update_course' do
+    let(:course) { described_class.create_course('Ruby programming') }
+
+    it 'updates the course' do
+      described_class.update_course(course, name: 'Java programming')
+      expect(course.reload.name).to eq('Java programming')
     end
   end
 end
