@@ -12,7 +12,7 @@ class AuthService
     user = User.find_by(email: email)
     raise InvalidCredentials if user.blank? || !user.authenticate(password)
 
-    JWTUtils.encode({ user_id: user.id })
+    [JWTUtils.encode({ user_id: user.id }), user]
   end
 
   def roles_for(token)

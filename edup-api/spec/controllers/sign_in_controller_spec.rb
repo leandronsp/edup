@@ -12,6 +12,15 @@ describe SignInController, type: :controller do
       expect(data['user_id']).to eq(user.id)
     end
 
+    it 'on success, also return some user data' do
+      post :create, params: { email: 'email@example.com', password: '111' }
+      expect(response.code).to eq('201')
+
+      result = JSON.parse(response.body)
+      expect(result['email']).to eq('email@example.com')
+      expect(result['id']).to eq(user.id)
+    end
+
     it 'returns 404 when invalid credentials' do
       post :create, params: { email: 'email@example.com', password: 'invalid' }
       expect(response.code).to eq('404')

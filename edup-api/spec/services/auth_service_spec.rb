@@ -3,11 +3,12 @@ describe AuthService do
     let(:user) { build_user }
     before { user.save }
 
-    it 'authenticates valid credentials and returns a JWT' do
-      token = described_class.authenticate('email@example.com', '111')
+    it 'authenticates valid credentials and returns a JWT and user' do
+      token, authenticated_user = described_class.authenticate('email@example.com', '111')
 
       data = JWTUtils.decode(token)
       expect(data['user_id']).to eq(user.id)
+      expect(authenticated_user.id).to eq(user.id)
     end
 
     it 'does not authenticate email not found' do
