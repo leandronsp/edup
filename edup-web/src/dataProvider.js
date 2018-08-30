@@ -72,16 +72,17 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
  */
 export default (type, resource, params) => {
     const { fetchJson } = fetchUtils;
-    const { url } = convertDataProviderRequestToHTTP(type, resource, params);
+    const { url, options } = convertDataProviderRequestToHTTP(type, resource, params);
 
     const token = localStorage.getItem('token');
-    const options = {
+
+    var opts = Object.assign({
       headers : new Headers({
           Accept: 'application/json',
           Authorization: `Bearer ${token}`
-      }),
-    };
+      })
+    }, options)
 
-    return fetchJson(url, options)
+    return fetchJson(url, opts)
         .then(response => convertHTTPResponseToDataProvider(response, type, resource, params));
 };
