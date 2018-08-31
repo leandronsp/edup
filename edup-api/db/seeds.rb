@@ -9,8 +9,8 @@
 student_role = RoleService.create_role('student')
 publisher_role = RoleService.create_role('publisher')
 
-student = User.create(email: 'student@example.com', password: '123456', password_confirmation: '123456')
-publisher = User.create(email: 'publisher@example.com', password: '123456', password_confirmation: '123456')
+student = User.create(email: 'student@example.com', password: 'pa$$w0rd', password_confirmation: 'pa$$w0rd')
+publisher = User.create(email: 'publisher@example.com', password: 'pa$$w0rd', password_confirmation: 'pa$$w0rd')
 
 RoleService.attach(student_role, student)
 RoleService.attach(publisher_role, publisher)

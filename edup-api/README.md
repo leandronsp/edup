@@ -14,7 +14,23 @@ API for EdUp.
     { email: 'email@example.com', password: '111' }
     Response:
       - 201 Created | json: { token: <jwt> }
-      - 404 NotFound
+      - 409 Conflict | json: { message: <message> }
+```
+## Users
+```
+  POST /users
+    { email: 'new@example.com' }
+    Authorization: <jwt>
+    Response:
+      - 201 Created | location: 'http://host.com/courses/1234-uuid'
+      - 409 Conflict | json: { message: <message> }
+      - 403 Forbidden
+
+  GET /users
+    Authorization: <jwt>
+    Response:
+      - 200 OK | json: [{ id: '1234-uuid', email: 'email', roles: ['student'] }]
+      - 403 Forbidden
 ```
 ## Courses
 ```
