@@ -24,4 +24,8 @@ class PublisherService
   def delete_course(course)
     course.destroy
   end
+
+  def delete_lesson(lesson)
+    lesson.destroy
+  end
 end

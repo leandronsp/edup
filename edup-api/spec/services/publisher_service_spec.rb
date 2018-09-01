@@ -70,4 +70,15 @@ describe PublisherService do
       expect(course.reload.published?).to eq(true)
     end
   end
+
+  describe '#delete_lesson' do
+    let(:course) { described_class.create_course('Ruby programming') }
+    let(:lesson) { described_class.create_lesson(course, 'Ruby programming') }
+
+    it 'destroys the lesson' do
+      described_class.delete_lesson(lesson)
+      expect { lesson.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(course.lessons.size).to eq(0)
+    end
+  end
 end

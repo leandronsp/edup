@@ -93,28 +93,6 @@ API for EdUp.
       - 404 NotFound
       - 403 Forbidden
 ```
-## Sessions
-```
-  POST /sessions
-    { session: { name: 'Web development' }, courses: ['1234', '4567'] }
-    Authorization: <jwt>
-    Response:
-      - 201 Created | location: 'http://host.com/sessions/1234-uuid'
-      - 403 Forbidden
-
-  GET /sessions
-    Authorization: <jwt>
-    Response:
-      - 200 OK | json: [{ name: 'Web developmet'}]
-      - 403 Forbidden
-
-  GET /sessions/1234-uuid
-    Authorization: <jwt>
-    Response:
-      - 200 OK | json: { name: 'Web developmet', courses: [<courses>] }
-      - 404 NotFound
-      - 403 Forbidden
-```
 ### Testing
 ```
   ./bin/rspec

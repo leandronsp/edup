@@ -41,6 +41,14 @@ describe CoursesController, type: :controller do
       expect(JSON.parse(response.body)['name']).to eq('Ruby programming')
     end
 
+    it 'also includes lessons within course' do
+      PublisherService.create_lesson(course, 'Installation')
+
+      get :show, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['lessons'].size).to eq(1)
+    end
+
     it 'returns 404' do
       get :show, { params: { id: '111' }}
       expect(response.code).to eq('404')

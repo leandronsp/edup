@@ -24,13 +24,6 @@ ActiveRecord::Schema.define(version: 2018_08_27_105546) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "courses_sessions", id: false, force: :cascade do |t|
-    t.uuid "course_id"
-    t.uuid "session_id"
-    t.index ["course_id"], name: "index_courses_sessions_on_course_id"
-    t.index ["session_id"], name: "index_courses_sessions_on_session_id"
-  end
-
   create_table "lessons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "course_id"
@@ -50,12 +43,6 @@ ActiveRecord::Schema.define(version: 2018_08_27_105546) do
     t.uuid "user_id"
     t.index ["role_id"], name: "index_roles_users_on_role_id"
     t.index ["user_id"], name: "index_roles_users_on_user_id"
-  end
-
-  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -8,7 +8,8 @@ import { refreshView } from 'ra-core';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  buttonRed: { color: 'red' }
+  publishedBtn: { color: 'white', backgroundColor: 'blue' },
+  unpublishedBtn: { color: 'white', backgroundColor: 'red' }
 };
 
 class PublishButton extends Component {
@@ -30,9 +31,9 @@ class PublishButton extends Component {
 
     render() {
         const { record, classes } = this.props;
-        var label = record.published ? "Unpublish" : "Publish"
-        var icon  = record.published ? <ActionClear /> : <ActionDone />
-        var buttonColor = record.published ? classes.buttonRed : null
+        var label = record.published ? "Published" : "Unpublished"
+        var icon  = record.published ? <ActionDone /> : <ActionClear />
+        var buttonColor = record.published ? classes.publishedBtn : classes.unpublishedBtn
 
         return (
           <Button className={buttonColor} label={label} onClick={this.handleClick}>{icon}</Button>

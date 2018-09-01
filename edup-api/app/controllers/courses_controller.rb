@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
 
   def show
     course = Course.find(params[:id])
-    render json: course
+    render json: course.as_json(include: :lessons)
   end
 
   def index
