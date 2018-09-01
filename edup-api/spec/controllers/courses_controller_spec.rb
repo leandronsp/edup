@@ -32,7 +32,7 @@ describe CoursesController, type: :controller do
     end
   end
 
-  describe 'GET /course/:id' do
+  describe 'GET /courses/:id' do
     let(:course) { PublisherService.create_course('Ruby programming') }
 
     it 'retrieves a course' do
@@ -55,7 +55,7 @@ describe CoursesController, type: :controller do
     end
   end
 
-  describe 'DELETE /course/:id' do
+  describe 'DELETE /courses/:id' do
     let(:course) { PublisherService.create_course('Ruby programming') }
 
     it 'deletes a course' do
@@ -67,10 +67,10 @@ describe CoursesController, type: :controller do
     end
   end
 
-  describe 'UPDATE /course/:id' do
+  describe 'UPDATE /courses/:id' do
     let(:course) { PublisherService.create_course('Ruby programming') }
 
-    it 'deletes a course' do
+    it 'updates a course' do
       put :update, { params: { id: course.id, course: { name: 'Java programming' }}}
       expect(response.code).to eq('200')
       expect(course.reload.name).to eq('Java programming')

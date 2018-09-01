@@ -17,8 +17,8 @@ class PublisherService
     course.update_attributes(params)
   end
 
-  def update_lesson_name(lesson, name)
-    lesson.update_attribute(:name, name)
+  def update_lesson(lesson, params)
+    lesson.update_attributes(params)
   end
 
   def delete_course(course)

@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   post '/signin', to: 'sign_in#create'
 
   resources :courses
-  resources :lessons, only: [:create, :destroy]
+  resources :lessons, only: [:show, :index, :create, :destroy, :update]
   resources :users, only: [:index, :create, :show]
 end

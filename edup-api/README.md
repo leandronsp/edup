@@ -71,7 +71,7 @@ API for EdUp.
 ```
 ## Lessons
 ```
-  POST /courses/1234-uuid/lessons
+  POST /lessons
     { lesson: { name: 'Basics' }, course_id: '1234-uuid' }
     Authorization: <jwt>
     Response:
@@ -79,17 +79,33 @@ API for EdUp.
       - 404 NotFound
       - 403 Forbidden
 
-  GET /courses/1234-uuid/lessons
+  GET /lessons?course_id=<course_id>
     Authorization: <jwt>
     Response:
       - 200 OK | json: [<lessons>]
       - 404 NotFound
       - 403 Forbidden
 
-  GET /courses/1234-uuid/lessons/123-lesson-uuid
+  GET /lessons/123-lesson-uuid?course_id=1234-course-uuid
     Authorization: <jwt>
     Response:
-      - 200 OK | json: { id: '123-lesson-uuid', name: 'Basics', course_id: '1234-uuid' }
+      - 200 OK | json: { id: '123-lesson-uuid', name: 'Basics' }
+      - 404 NotFound
+      - 403 Forbidden
+
+  UPDATE /lessons/1234-lesson-uuid
+    { lesson: { name: 'Basics' }, course_id: '1234-uuid' }
+    Authorization: <jwt>
+    Response:
+      - 200 OK
+      - 404 NotFound
+      - 403 Forbidden
+
+  DELETE /lessons/1234-uuid
+    { course_id: '1234-course-uuid' }
+    Authorization: <jwt>
+    Response:
+      - 200 OK
       - 404 NotFound
       - 403 Forbidden
 ```
