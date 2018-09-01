@@ -69,7 +69,7 @@ const LessonGrid = ({ record, basePath }) => {
     )}
   </div>;
 
-  return record.lessons && record.lessons.length ? content : <h3>No Lessons</h3>;
+  return record.lessons && record.lessons.length ? content : <h3 style={{ margin: '1em' }}>No Lessons</h3>;
 };
 
 export const CourseShow = (props) => (

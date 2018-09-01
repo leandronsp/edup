@@ -12,7 +12,6 @@ const UserActions = ({basePath}) => (
 export const UserList = (props) => (
     <List title="All users" actions={<UserActions />} bulkActions={null} {...props}>
         <Datagrid>
-            <TextField source="id" />
             <EmailField source="email" />
             <TextField source="roles" />
         </Datagrid>
