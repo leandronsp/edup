@@ -25,7 +25,7 @@ class CreateLessonButton extends Component {
 
     render() {
         return (
-          <Button label="Create Lesson" onClick={this.handleClick}><BookIcon /></Button>
+          <Button style={{color: 'green'}} label="Create Lesson" onClick={this.handleClick}><BookIcon /></Button>
         )
     }
 }

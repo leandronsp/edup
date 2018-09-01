@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import PublishButton from './PublishButton'
 import CreateLessonButton from './CreateLessonButton'
+import DeleteLessonButton from './DeleteLessonButton'
 
 const CourseListActions = ({basePath}) => (
   <CardActions>
@@ -31,7 +32,7 @@ export const CourseList = (props) => (
   <List {...props} title="All Courses" actions={<CourseListActions />} bulkActions={null} >
       <Datagrid>
           <TextField source="name" />
-          <ShowButton />
+          <ShowButton label="Lessons" />
           <PublishButton />
           <DeleteButton />
       </Datagrid>
@@ -52,9 +53,9 @@ const LessonGrid = ({ record, basePath }) => {
     verticalAlign: 'top'
   };
 
-  const lessons = record.lessons || []
+  const lessons = record.lessons || [];
 
-  return <div style={{ margin: '1em' }}>
+  const content = <div style={{ margin: '1em' }}>
     {lessons.map(lesson =>
       <Card key={lesson.id} style={cardStyle}>
         <CardHeader
@@ -62,11 +63,13 @@ const LessonGrid = ({ record, basePath }) => {
             avatar={<Avatar><BookIcon /></Avatar>}
         />
         <CardActions style={{ textAlign: 'right' }}>
-            <DeleteButton resource="courses" record={lesson} basePath={basePath} />
+            <DeleteLessonButton record={lesson} />
         </CardActions>
       </Card>
     )}
-  </div>
+  </div>;
+
+  return record.lessons && record.lessons.length ? content : <h3>No Lessons</h3>;
 };
 
 export const CourseShow = (props) => (
