@@ -15,12 +15,20 @@ describe CoursesController, type: :controller do
   end
 
   describe 'GET /courses' do
-    it 'retrieves all courses' do
-      course = PublisherService.create_course('Ruby programming')
+    it 'retrieves all the courses ordered by creation date' do
+      PublisherService.create_course('Ruby programming')
+      PublisherService.create_course('Java programming')
+      PublisherService.create_course('Node programming')
+
+      PublisherService.publish_course(Course.find_by(name: 'Java programming'))
 
       get :index
       expect(response.code).to eq('200')
-      expect(JSON.parse(response.body)[0]['name']).to eq('Ruby programming')
+
+      result = JSON.parse(response.body)
+      expect(result[0]['name']).to eq('Ruby programming')
+      expect(result[1]['name']).to eq('Java programming')
+      expect(result[2]['name']).to eq('Node programming')
     end
   end
 

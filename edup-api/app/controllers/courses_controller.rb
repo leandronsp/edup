@@ -13,7 +13,7 @@ class CoursesController < ApplicationController
   end
 
   def index
-    render json: Course.all
+    render json: Course.order(created_at: :asc)
   end
 
   def destroy
