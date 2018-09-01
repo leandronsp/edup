@@ -1,6 +1,8 @@
 import React from 'react';
-import { List, Datagrid, TextField, RefreshButton, CreateButton,
+import { List, Datagrid, TextField, RefreshButton, CreateButton, BooleanField,
   DeleteButton, SimpleForm, Create, TextInput, CardActions } from 'react-admin';
+
+import PublishButton from './PublishButton'
 
 const CourseActions = ({basePath}) => (
     <CardActions>
@@ -13,6 +15,8 @@ export const CourseList = (props) => (
     <List {...props} title="All Courses" actions={<CourseActions />} bulkActions={null} >
         <Datagrid>
             <TextField source="name" />
+            <BooleanField source="published" />
+            <PublishButton />
             <DeleteButton />
         </Datagrid>
     </List>

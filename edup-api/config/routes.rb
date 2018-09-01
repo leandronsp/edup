@@ -8,6 +8,4 @@ Rails.application.routes.draw do
   resources :courses do
     resources :lessons, only: [:create, :show, :index]
   end
-
-  resources :sessions, only: [:create, :show, :index]
 end

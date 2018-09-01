@@ -48,29 +48,6 @@ describe PublisherService do
     end
   end
 
-  describe '#create_session' do
-    it 'creates a session of courses' do
-      course_a = described_class.create_course('NodeJS programming')
-      course_b = described_class.create_course('Ruby programming')
-
-      session = described_class.create_session('Web development', [course_a, course_b])
-
-      expect(session.name).to eq('Web development')
-      expect(session.reload.courses.size).to eq(2)
-      expect(course_a.sessions.size).to eq(1)
-    end
-  end
-
-  describe '#update_session_name' do
-    let(:course) { described_class.create_course('Ruby programming') }
-    let(:session) { described_class.create_session('Web dev', [course]) }
-
-    it 'updates the session name' do
-      described_class.update_session_name(session, 'Web development')
-      expect(session.reload.name).to eq('Web development')
-    end
-  end
-
   describe '#delete_course' do
     let(:course) { described_class.create_course('Ruby programming') }
 
@@ -86,6 +63,11 @@ describe PublisherService do
     it 'updates the course' do
       described_class.update_course(course, name: 'Java programming')
       expect(course.reload.name).to eq('Java programming')
+    end
+
+    it 'publishes a course' do
+      described_class.update_course(course, published: true)
+      expect(course.reload.published?).to eq(true)
     end
   end
 end
