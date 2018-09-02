@@ -11,8 +11,8 @@ const styles = {}
 class DeleteLessonButton extends Component {
 
     handleClick = () => {
-      const { record, showNotification } = this.props;
-      dataProvider(DELETE, 'lessons', { id: record.id })
+      const { record, showNotification, parentId } = this.props;
+      dataProvider(DELETE, 'lessons', { id: record.id, data: { course_id: parentId }})
         .then(() => {
           showNotification('Lesson deleted')
           this.props.refreshView()

@@ -1,7 +1,6 @@
 class LessonsController < ApplicationController
   include Authorizable
   before_action :ensure_user_is_publisher
-  before_action :ensure_course_presence
 
   def destroy
     lesson = Lesson.find(params[:id])
@@ -11,10 +10,12 @@ class LessonsController < ApplicationController
   end
 
   def index
+    ensure_course_presence
     render json: Lesson.where(course_id: @course.id).order(created_at: :asc)
   end
 
   def create
+    ensure_course_presence
     lesson = PublisherService.create_lesson(@course, lesson_params[:name])
     render json: lesson, status: 201, location: lesson_url(lesson)
   end

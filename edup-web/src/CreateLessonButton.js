@@ -11,8 +11,8 @@ const styles = {}
 class CreateLessonButton extends Component {
 
     handleClick = () => {
-      const { data, showNotification } = this.props;
-      dataProvider(CREATE, 'lessons', { data: { lesson: { course_id: data.id }}})
+      const { showNotification, parentId } = this.props;
+      dataProvider(CREATE, 'lessons', { data: { course_id: parentId }})
         .then(() => {
           showNotification('Lesson created');
           this.props.refreshView()

@@ -4,6 +4,7 @@ import {
     CREATE,
     UPDATE,
     DELETE,
+    GET_MANY_REFERENCE,
     fetchUtils,
 } from 'react-admin';
 
@@ -35,7 +36,11 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     case DELETE:
         return {
             url: `${API_URL}/${resource}/${params.id}`,
-            options: { method: 'DELETE' },
+            options: { method: 'DELETE', body: JSON.stringify(params.data) },
+        };
+    case GET_MANY_REFERENCE:
+        return {
+            url: `${API_URL}/${resource}?${params.target}=${params.id}`,
         };
     default:
         throw new Error(`Unsupported fetch action type ${type}`);
@@ -51,8 +56,14 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
  */
 const convertHTTPResponseToDataProvider = (response, type, resource, params) => {
     const { json } = response;
+
     switch (type) {
     case GET_LIST:
+        return {
+            data: json.map(x => x),
+            total: json.length
+        };
+    case GET_MANY_REFERENCE:
         return {
             data: json.map(x => x),
             total: json.length
