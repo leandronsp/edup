@@ -15,14 +15,11 @@ publisher = User.create(email: 'publisher@example.com', password: 'pa$$w0rd', pa
 RoleService.attach(student_role, student)
 RoleService.attach(publisher_role, publisher)
 
-ruby_course = PublisherService.create_course('Ruby programming')
-node_course = PublisherService.create_course('Node programming')
+ruby_course = Course.create(name: 'Ruby programming')
+node_course = Course.create(name: 'Node programming')
+java_course = Course.create(name: 'Java programming')
 
-PublisherService.create_lesson(ruby_course, 'Installation')
-PublisherService.create_lesson(ruby_course, 'Basics')
-PublisherService.create_lesson(ruby_course, 'Threading')
-PublisherService.create_lesson(ruby_course, 'More')
-
-PublisherService.create_lesson(node_course, 'Installation')
-PublisherService.create_lesson(node_course, 'Basics')
-PublisherService.create_lesson(node_course, 'Prototype')
+Lesson.create(course: ruby_course, name: 'Installation')
+Lesson.create(course: ruby_course, name: 'Basics')
+Lesson.create(course: ruby_course, name: 'Threading')
+Lesson.create(course: node_course, name: 'Installation')

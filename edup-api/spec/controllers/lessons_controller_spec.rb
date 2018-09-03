@@ -1,5 +1,5 @@
 describe LessonsController, type: :controller do
-  let(:course) { PublisherService.create_course('Ruby programming') }
+  let(:course) { Course.create(name: 'Ruby programming') }
 
   before do
     authenticate_as_publisher
@@ -28,8 +28,8 @@ describe LessonsController, type: :controller do
   end
 
   describe 'DELETE /lessons/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
-    let(:lesson) { PublisherService.create_lesson(course, 'Basics') }
+    let(:course) { Course.create(name: 'Ruby programming') }
+    let(:lesson) { Lesson.create(course: course, name: 'Basics') }
 
     it 'deletes a lesson' do
       _id = lesson.id
@@ -41,8 +41,8 @@ describe LessonsController, type: :controller do
   end
 
   describe 'GET /lessons' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
-    let(:lesson) { PublisherService.create_lesson(course, 'Basics') }
+    let(:course) { Course.create(name: 'Ruby programming') }
+    let(:lesson) { Lesson.create(course: course, name: 'Basics') }
 
     it 'retrieves all the lessons within a course' do
       get :index, { params: { course_id: lesson.course_id }}
@@ -54,8 +54,8 @@ describe LessonsController, type: :controller do
   end
 
   describe 'GET /lessons/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
-    let(:lesson) { PublisherService.create_lesson(course, 'Basics') }
+    let(:course) { Course.create(name: 'Ruby programming') }
+    let(:lesson) { Lesson.create(course: course, name: 'Basics') }
 
     it 'retrieves a lesson' do
       get :show, { params: { course_id: course.id, id: lesson.id }}
@@ -71,8 +71,8 @@ describe LessonsController, type: :controller do
   end
 
   describe 'UPDATE /lessons/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
-    let(:lesson) { PublisherService.create_lesson(course, 'Basics') }
+    let(:course) { Course.create(name: 'Ruby programming') }
+    let(:lesson) { Lesson.create(course: course, name: 'Basics') }
 
     it 'updates a lesson' do
       put :update, { params: { id: lesson.id, course_id: course.id, lesson: { name: 'Installation' }}}

@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   before_action :ensure_user_is_publisher
 
   def create
-    course = PublisherService.create_course(course_params[:name])
+    course = Course.create(name: course_params[:name])
     render json: course, status: 201, location: course_url(course)
   end
 
@@ -18,13 +18,15 @@ class CoursesController < ApplicationController
 
   def destroy
     course = Course.find(params[:id])
-    PublisherService.delete_course(course)
+    course.destroy
+
     render json: { id: params[:id] }
   end
 
   def update
     course = Course.find(params[:id])
-    PublisherService.update_course(course, course_params)
+    course.update_attributes(course_params)
+
     render json: course
   end
 

@@ -4,7 +4,7 @@ class LessonsController < ApplicationController
 
   def destroy
     lesson = Lesson.find(params[:id])
-    PublisherService.delete_lesson(lesson)
+    lesson.destroy
 
     render json: { id: params[:id] }
   end
@@ -16,7 +16,8 @@ class LessonsController < ApplicationController
 
   def create
     ensure_course_presence
-    lesson = PublisherService.create_lesson(@course, lesson_params[:name])
+    lesson = Lesson.create(course: @course, name: lesson_params[:name])
+
     render json: lesson, status: 201, location: lesson_url(lesson)
   end
 
@@ -27,7 +28,8 @@ class LessonsController < ApplicationController
 
   def update
     lesson = Lesson.find(params[:id])
-    PublisherService.update_lesson(lesson, lesson_params)
+    lesson.update_attributes(lesson_params)
+
     render json: lesson
   end
 

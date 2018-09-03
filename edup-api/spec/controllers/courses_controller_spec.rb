@@ -16,11 +16,11 @@ describe CoursesController, type: :controller do
 
   describe 'GET /courses' do
     it 'retrieves all the courses ordered by creation date' do
-      PublisherService.create_course('Ruby programming')
-      PublisherService.create_course('Java programming')
-      PublisherService.create_course('Node programming')
+      Course.create(name: 'Ruby programming')
+      Course.create(name: 'Java programming')
+      Course.create(name: 'Node programming')
 
-      PublisherService.publish_course(Course.find_by(name: 'Java programming'))
+      Course.find_by(name: 'Java programming').update_attribute(:published, true)
 
       get :index
       expect(response.code).to eq('200')
@@ -33,7 +33,7 @@ describe CoursesController, type: :controller do
   end
 
   describe 'GET /courses/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
+    let(:course) { Course.create(name: 'Ruby programming') }
 
     it 'retrieves a course' do
       get :show, { params: { id: course.id }}
@@ -42,7 +42,7 @@ describe CoursesController, type: :controller do
     end
 
     it 'also includes lessons within course' do
-      PublisherService.create_lesson(course, 'Installation')
+      Lesson.create(course: course, name: 'Installation')
 
       get :show, { params: { id: course.id }}
       expect(response.code).to eq('200')
@@ -56,7 +56,7 @@ describe CoursesController, type: :controller do
   end
 
   describe 'DELETE /courses/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
+    let(:course) { Course.create(name: 'Ruby programming') }
 
     it 'deletes a course' do
       _id = course.id
@@ -68,7 +68,7 @@ describe CoursesController, type: :controller do
   end
 
   describe 'UPDATE /courses/:id' do
-    let(:course) { PublisherService.create_course('Ruby programming') }
+    let(:course) { Course.create(name: 'Ruby programming') }
 
     it 'updates a course' do
       put :update, { params: { id: course.id, course: { name: 'Java programming' }}}
