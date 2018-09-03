@@ -31,6 +31,13 @@ API for EdUp.
     Response:
       - 200 OK | json: [{ id: '1234-uuid', email: 'email', roles: ['student'] }]
       - 403 Forbidden
+
+  GET /users/1234-uuid
+    Authorization: <jwt>
+    Response:
+      - 200 OK | json: { id: '1234-uuid', email: 'email', roles: ['student'] }
+      - 404 NotFound
+      - 403 Forbidden
 ```
 ## Courses
 ```

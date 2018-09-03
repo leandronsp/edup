@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, showNotification, CREATE } from 'react-admin';
 import { connect } from 'react-redux';
-import dataProvider from './dataProvider';
+import dataProvider from '../../dataProvider';
 import { refreshView } from 'ra-core';
 import { withStyles } from '@material-ui/core/styles';
 import BookIcon from '@material-ui/icons/Book';

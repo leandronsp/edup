@@ -3,7 +3,7 @@ import { Button, showNotification, UPDATE } from 'react-admin';
 import { connect } from 'react-redux';
 import ActionDone from '@material-ui/icons/Done';
 import ActionClear from '@material-ui/icons/Clear';
-import dataProvider from './dataProvider';
+import dataProvider from '../../dataProvider';
 import { refreshView } from 'ra-core';
 import { withStyles } from '@material-ui/core/styles';
 

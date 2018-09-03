@@ -33,7 +33,7 @@ module Authorizable
 
   def authorize?(role_name)
     return false unless current_user
-    current_user.roles.map(&:name).include?(role_name)
+    current_user.has_role?(role_name)
   end
 
   def current_user

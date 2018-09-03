@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   include Authorizable
-  before_action :ensure_user_is_publisher
+  before_action :ensure_user_is_publisher, only: [:create, :update, :destroy]
 
   def create
     course = Course.create(name: course_params[:name])
@@ -13,7 +13,8 @@ class CoursesController < ApplicationController
   end
 
   def index
-    render json: Course.order(created_at: :asc)
+    scope = authorize?('publisher') ? Course : Course.published
+    render json: scope.order(created_at: :asc)
   end
 
   def destroy

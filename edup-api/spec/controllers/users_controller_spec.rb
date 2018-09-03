@@ -34,4 +34,14 @@ describe UsersController, type: :controller do
       expect(JSON.parse(response.body)['message']).to eq('Already registered')
     end
   end
+
+  describe 'GET /users/:id' do
+    it 'shows a user' do
+      user = build_user(email: 'test@example.com')
+
+      get :show, { params: { id: user.id }}
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['email']).to eq('test@example.com')
+    end
+  end
 end

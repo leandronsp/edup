@@ -12,6 +12,13 @@ describe CoursesController, type: :controller do
       created = Course.last
       expect(response.location).to eq("http://test.host/courses/#{created.id}")
     end
+
+    it 'does not allow non-publishers to create courses' do
+      authenticate_as_student
+      post :create, params: { course: { name: 'Ruby programming' }}
+
+      expect(response.code).to eq('403')
+    end
   end
 
   describe 'GET /courses' do
@@ -29,6 +36,21 @@ describe CoursesController, type: :controller do
       expect(result[0]['name']).to eq('Ruby programming')
       expect(result[1]['name']).to eq('Java programming')
       expect(result[2]['name']).to eq('Node programming')
+    end
+
+    it 'retrieves only published courses for students' do
+      authenticate_as_student
+
+      Course.create(name: 'Ruby programming')
+      Course.create(name: 'Java programming', published: true)
+      Course.create(name: 'Node programming')
+
+      get :index
+      expect(response.code).to eq('200')
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq(1)
+      expect(result[0]['name']).to eq('Java programming')
     end
   end
 
@@ -65,6 +87,21 @@ describe CoursesController, type: :controller do
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)['id']).to eq(_id)
     end
+
+    it 'deletes the lessons beloging to the course' do
+      lesson = Lesson.create(name: 'Basics', course: course)
+
+      delete :destroy, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+      expect { lesson.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not allow non-publishers to delete courses' do
+      authenticate_as_student
+      delete :destroy, { params: { id: course.id }}
+
+      expect(response.code).to eq('403')
+    end
   end
 
   describe 'UPDATE /courses/:id' do
@@ -74,6 +111,13 @@ describe CoursesController, type: :controller do
       put :update, { params: { id: course.id, course: { name: 'Java programming' }}}
       expect(response.code).to eq('200')
       expect(course.reload.name).to eq('Java programming')
+    end
+
+    it 'does not allow non-publishers to update courses' do
+      authenticate_as_student
+      put :update, { params: { id: course.id, course: { name: 'Java programming' }}}
+
+      expect(response.code).to eq('403')
     end
   end
 end

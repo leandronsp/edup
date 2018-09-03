@@ -13,9 +13,8 @@ import Avatar from '@material-ui/core/Avatar';
 import PublishButton from './PublishButton'
 import CreateLessonButton from './CreateLessonButton'
 import DeleteLessonButton from './DeleteLessonButton'
-import EditLessonButton from './EditLessonButton'
 
-import dataProvider from './dataProvider';
+import dataProvider from '../../dataProvider';
 
 const CourseListActions = ({basePath}) => (
   <CardActions>
