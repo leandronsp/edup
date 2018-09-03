@@ -9,12 +9,17 @@ class CoursesController < ApplicationController
 
   def show
     course = Course.find(params[:id])
-    render json: course.as_json(include: :lessons)
+    EnrollmentService.enroll(current_user, course) if authorize?('student')
+
+    render json: course.as_json(include: [:lessons, :students])
   end
 
   def index
     scope = authorize?('publisher') ? Course : Course.published
-    render json: scope.order(created_at: :asc)
+
+    render json: (scope.order(created_at: :asc).map do |course|
+      course.as_json(include: :students)
+    end)
   end
 
   def destroy

@@ -52,6 +52,17 @@ describe CoursesController, type: :controller do
       expect(result.size).to eq(1)
       expect(result[0]['name']).to eq('Java programming')
     end
+
+    it 'includes enrolled students counter' do
+      course = Course.create(name: 'Ruby')
+      EnrollmentService.enroll(build_student, course)
+
+      get :index
+      expect(response.code).to eq('200')
+
+      result = JSON.parse(response.body)
+      expect(result[0]['students'][0]['email']).to eq('student@example.com')
+    end
   end
 
   describe 'GET /courses/:id' do
@@ -71,9 +82,44 @@ describe CoursesController, type: :controller do
       expect(JSON.parse(response.body)['lessons'].size).to eq(1)
     end
 
+    it 'also includes enrolled students' do
+      EnrollmentService.enroll(build_student, course)
+
+      get :show, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+      expect(JSON.parse(response.body)['students'].size).to eq(1)
+    end
+
     it 'returns 404' do
       get :show, { params: { id: '111' }}
       expect(response.code).to eq('404')
+    end
+
+    context 'student' do
+      before { authenticate_as_student }
+
+      it 'increments the enrolled students counter' do
+        get :show, { params: { id: course.id }}
+
+        expect(response.code).to eq('200')
+        expect(course.reload.students.size).to eq(1)
+      end
+
+      it 'does not duplicate the counter' do
+        get :show, { params: { id: course.id }}
+        get :show, { params: { id: course.id }}
+
+        expect(response.code).to eq('200')
+        expect(course.reload.students.size).to eq(1)
+      end
+
+      it 'does not enroll non-students' do
+        authenticate_as_publisher
+        get :show, { params: { id: course.id }}
+
+        expect(response.code).to eq('200')
+        expect(course.reload.students.size).to eq(0)
+      end
     end
   end
 
