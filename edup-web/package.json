@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@u-wave/react-vimeo": "^0.5.0",
+    "@u-wave/react-youtube": "^0.6.0",
+    "get-video-id": "^3.1.0",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.6.2",
     "ra-data-json-server": "^2.2.2",
@@ -10,7 +13,8 @@
     "react": "^16.4.2",
     "react-admin": "^2.2.2",
     "react-dom": "^16.4.2",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "video-react": "^0.13.0"
   },
   "scripts": {
     "start": "react-scripts start",

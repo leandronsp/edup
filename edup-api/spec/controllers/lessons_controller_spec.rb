@@ -75,9 +75,11 @@ describe LessonsController, type: :controller do
     let(:lesson) { Lesson.create(course: course, name: 'Basics') }
 
     it 'updates a lesson' do
-      put :update, { params: { id: lesson.id, course_id: course.id, lesson: { name: 'Installation' }}}
+      put :update, { params: { id: lesson.id, course_id: course.id,
+        lesson: { name: 'Installation', source_url: 'https://www.youtube.com/watch?v=abcd' }}}
       expect(response.code).to eq('200')
       expect(lesson.reload.name).to eq('Installation')
+      expect(lesson.reload.source_url).to eq('https://www.youtube.com/watch?v=abcd')
     end
   end
 end

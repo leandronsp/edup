@@ -1,6 +1,6 @@
 class LessonsController < ApplicationController
   include Authorizable
-  before_action :ensure_user_is_publisher
+  before_action :ensure_user_is_publisher, except: [:show]
 
   def destroy
     lesson = Lesson.find(params[:id])
@@ -40,6 +40,6 @@ class LessonsController < ApplicationController
   end
 
   def lesson_params
-    params.require(:lesson).permit(:name)
+    params.require(:lesson).permit(:name, :source_url)
   end
 end
