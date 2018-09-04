@@ -14,6 +14,8 @@ import PublishButton from './PublishButton'
 import CreateLessonButton from './CreateLessonButton'
 import DeleteLessonButton from './DeleteLessonButton'
 
+import CounterField from './CounterField'
+
 import dataProvider from '../../dataProvider';
 
 const CourseListActions = ({basePath}) => (
@@ -42,6 +44,7 @@ export const CourseList = (props) => (
       <Datagrid>
           <TextField source="name" />
           <ShowButton label="Lessons" />
+          <CounterField source="students" />
           <PublishButton />
           <DeleteButton />
       </Datagrid>
