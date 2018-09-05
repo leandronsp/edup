@@ -86,6 +86,7 @@ const LessonGrid = ({record, basePath}) => {
             <CardContent>
               {service === 'vimeo' && <Vimeo video={id} width={300} height={200} />}
               {service === 'youtube' && <YouTube video={id} width={300} height={200} />}
+              {service === undefined && <img src="/placeholder.png"/>}
             </CardContent>
             <CardActions style={{ textAlign: 'right' }}>
                 <EditButton resource='lessons' basePath='/lessons' record={lesson} />

@@ -71,6 +71,7 @@ const LessonCard = ({ record }) => {
       <CardContent>
         {service === 'vimeo' && <Vimeo video={id} width={700} height={400} />}
         {service === 'youtube' && <YouTube video={id} width={700} height={400} />}
+        {service === undefined && <img src="/placeholder.png"/>}
       </CardContent>
   </Card>;
 };
@@ -100,6 +101,7 @@ const LessonGrid = ({record, basePath}) => {
             <CardContent>
               {service === 'vimeo' && <Vimeo video={id} width={300} height={200} />}
               {service === 'youtube' && <YouTube video={id} width={300} height={200} />}
+              {service === undefined && <img src="/placeholder.png"/>}
             </CardContent>
             <CardActions style={{ textAlign: 'right' }}>
                 <ShowButton label="View" resource='lessons' basePath='/lessons' record={lesson}  />
