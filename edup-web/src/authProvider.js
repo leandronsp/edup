@@ -1,5 +1,6 @@
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS } from 'react-admin';
 import decodeJwt from 'jwt-decode';
+import config from './config/apiEndpoint';
 
 const setItems = (id, email, token) => {
   localStorage.setItem('id', id);
@@ -20,7 +21,7 @@ const removeItems = () => {
 export default (type, params) => {
 if (type === AUTH_LOGIN) {
         const { username, password } = params;
-        const request = new Request('http://localhost:4001/signin', {
+        const request = new Request(config.API_ENDPOINT + '/signin', {
             method: 'POST',
             body: JSON.stringify({ email: username, password: password }),
             headers: new Headers({ 'Content-Type': 'application/json' }),

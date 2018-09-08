@@ -1,3 +1,5 @@
+import config from './config/apiEndpoint';
+
 import {
     GET_LIST,
     GET_ONE,
@@ -8,7 +10,7 @@ import {
     fetchUtils,
 } from 'react-admin';
 
-const API_URL = 'http://localhost:4001';
+const API_URL = config.API_ENDPOINT;
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
