@@ -49,4 +49,11 @@ module HelperMethods
   def set_request_token(token)
     request.headers['Authorization'] = "Bearer #{token}"
   end
+
+  def create_upload_for(lesson, opts = {})
+    content = file_fixture('upload.txt').read
+    base64_content = "data:video/mp4;base64,#{Base64.encode64(content)}"
+
+    UploadService.upload({ src: base64_content, title: opts.fetch(:name, 'upload.mp4') }, lesson)
+  end
 end

@@ -11,7 +11,19 @@ class CoursesController < ApplicationController
     course = Course.find(params[:id])
     EnrollmentService.enroll(current_user, course) if authorize?('student')
 
-    render json: course.as_json(include: [:lessons, :students])
+    lessons_as_json = course.lessons.map do |lesson|
+      if lesson.upload.present? && lesson.upload.attached?
+        upload_url = rails_blob_url(lesson.upload)
+        upload_filename = lesson.upload.filename
+      end
+
+      lesson.as_json.merge(
+        upload_url: upload_url,
+        upload_filename: upload_filename
+      )
+    end
+
+    render json: course.as_json(include: [:students]).merge(lessons: lessons_as_json)
   end
 
   def index

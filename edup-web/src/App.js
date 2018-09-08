@@ -16,9 +16,11 @@ import UserIcon from '@material-ui/icons/Group';
 
 import authProvider from './authProvider';
 import dataProvider from './dataProvider';
+import addUploadFeature from './addUploadFeature';
+const uploadCapableDataProvider = addUploadFeature(dataProvider);
 
 const App = () => (
-  <Admin title="EdUp" dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider}>
+  <Admin title="EdUp" dashboard={Dashboard} authProvider={authProvider} dataProvider={uploadCapableDataProvider}>
     {permissions => [
       permissions === 'publisher' ? <Resource name="users" list={UserList} create={UserCreate} icon={UserIcon} /> : null,
       permissions === 'publisher' ? <Resource name="courses" list={CourseList} create={CourseCreate} show={CourseShow} edit={CourseEdit} icon={BookIcon} /> : null,

@@ -23,12 +23,22 @@ class LessonsController < ApplicationController
 
   def show
     lesson = Lesson.find(params[:id])
-    render json: lesson
+    if lesson.upload.present? && lesson.upload.attached?
+      upload_url = rails_blob_url(lesson.upload)
+      upload_filename = lesson.upload.filename
+    end
+
+    render json: lesson.as_json.merge(
+      upload_url: upload_url,
+      upload_filename: upload_filename
+    )
   end
 
   def update
     lesson = Lesson.find(params[:id])
     lesson.update_attributes(lesson_params)
+
+    UploadService.upload(params[:upload], lesson)
 
     render json: lesson
   end

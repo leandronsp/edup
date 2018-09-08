@@ -53,7 +53,7 @@ describe CoursesController, type: :controller do
       expect(result[0]['name']).to eq('Java programming')
     end
 
-    it 'includes enrolled students counter' do
+    it 'includes enrolled students' do
       course = Course.create(name: 'Ruby')
       EnrollmentService.enroll(build_student, course)
 
@@ -74,20 +74,34 @@ describe CoursesController, type: :controller do
       expect(JSON.parse(response.body)['name']).to eq('Ruby programming')
     end
 
-    it 'also includes lessons within course' do
-      Lesson.create(course: course, name: 'Installation')
-
-      get :show, { params: { id: course.id }}
-      expect(response.code).to eq('200')
-      expect(JSON.parse(response.body)['lessons'].size).to eq(1)
-    end
-
     it 'also includes enrolled students' do
       EnrollmentService.enroll(build_student, course)
 
       get :show, { params: { id: course.id }}
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)['students'].size).to eq(1)
+    end
+
+    it 'also includes lessons' do
+      Lesson.create(course: course, name: 'Installation')
+
+      get :show, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+
+      result = JSON.parse(response.body)
+      expect(result['lessons'].size).to eq(1)
+      expect(result['lessons'][0]['upload_url']).to eq(nil)
+    end
+
+    it 'and some lessons may have uploads' do
+      lesson = Lesson.create(course: course, name: 'Basics')
+      create_upload_for(lesson, name: 'lesson_1.mp4')
+
+      get :show, { params: { id: course.id }}
+      expect(response.code).to eq('200')
+
+      result = JSON.parse(response.body)
+      expect(result['lessons'][0]['upload_url']).to match(/http:\/\/test\.host.*?lesson_1\.mp4/)
     end
 
     it 'returns 404' do

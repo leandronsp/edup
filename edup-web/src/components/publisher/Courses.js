@@ -5,6 +5,7 @@ import Vimeo from '@u-wave/react-vimeo';
 
 import { List, Datagrid, TextField, RefreshButton, CreateButton, ShowButton, BooleanField,
   Show, SimpleShowLayout, ListButton, TabbedShowLayout, Tab, ReferenceManyField, EditButton,
+  FileInput, FileField,
   Edit, DeleteButton, SimpleForm, Create, TextInput, CardActions, GET_ONE } from 'react-admin';
 
 import BookIcon from '@material-ui/icons/Book';
@@ -83,11 +84,18 @@ const LessonGrid = ({record, basePath}) => {
                 title={<TextField record={lesson} source="name" />}
                 avatar={<Avatar><BookIcon /></Avatar>}
             />
+            {!lesson.upload_url &&
             <CardContent>
               {service === 'vimeo' && <Vimeo video={id} width={300} height={200} />}
               {service === 'youtube' && <YouTube video={id} width={300} height={200} />}
               {service === undefined && <img src="/placeholder.png"/>}
             </CardContent>
+            }
+            {lesson.upload_url &&
+            <CardContent>
+              <Player src={lesson.upload_url} />
+            </CardContent>
+            }
             <CardActions style={{ textAlign: 'right' }}>
                 <EditButton resource='lessons' basePath='/lessons' record={lesson} />
                 <DeleteLessonButton parentId={record.id} record={lesson} />
@@ -115,7 +123,13 @@ const LessonCard = ({ record }) => {
           title={<TextInput record={record} source="name" />}
           avatar={<Avatar><BookIcon /></Avatar>}/>
       <CardContent>
-        <TextInput record={record} source="source_url" style={{width: '100%'}} />
+        <TextInput record={record} label="Put here an external source url (YouTube or Vimeo)" source="source_url" style={{width: '100%'}} />
+      </CardContent>
+      <CardContent>
+        <FileInput record={record} source="upload" label="or upload any mp4 video file" accept="video/mp4">
+            <FileField record={record} source="src" title="title" />
+        </FileInput>
+        <a href={record.upload_url} target="_blank">{record.upload_filename}</a>
       </CardContent>
   </Card>;
 };

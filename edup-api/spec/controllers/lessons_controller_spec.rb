@@ -62,6 +62,19 @@ describe LessonsController, type: :controller do
       expect(response.code).to eq('200')
       expect(JSON.parse(response.body)['name']).to eq('Basics')
       expect(JSON.parse(response.body)['course_id']).to eq(course.id)
+      expect(JSON.parse(response.body)['upload_url']).to eq(nil)
+    end
+
+    it 'includes upload url' do
+      create_upload_for(lesson, name: 'lesson_2.mp4')
+
+      get :show, { params: { course_id: course.id, id: lesson.id }}
+      expect(response.code).to eq('200')
+
+      result = JSON.parse(response.body)
+      expect(result['name']).to eq('Basics')
+      expect(result['course_id']).to eq(course.id)
+      expect(result['upload_url']).to match(/http:\/\/test\.host.*?lesson_2\.mp4/)
     end
 
     it 'returns 404 when lesson not found' do
@@ -80,6 +93,23 @@ describe LessonsController, type: :controller do
       expect(response.code).to eq('200')
       expect(lesson.reload.name).to eq('Installation')
       expect(lesson.reload.source_url).to eq('https://www.youtube.com/watch?v=abcd')
+    end
+
+    it 'attaches an upload' do
+      content = file_fixture('upload.txt').read
+      base64_content = "data:video/mp4;base64,#{Base64.encode64(content)}"
+
+      put :update, { params: { id: lesson.id, course_id: course.id,
+        upload: { src: base64_content, title: 'lesson1.mp4' },
+        lesson: {
+          name: 'Installation',
+          source_url: 'https://www.youtube.com/watch?v=abcd'
+        }}}
+
+      expect(response.code).to eq('200')
+      expect(lesson.reload.name).to eq('Installation')
+      expect(lesson.reload.source_url).to eq('https://www.youtube.com/watch?v=abcd')
+      expect(lesson.reload.upload.download).to eq("test1\ntest2\n")
     end
   end
 end
