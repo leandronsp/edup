@@ -1,21 +1,33 @@
 # EdUp API
 
-API for EdUp.
+Endpoints for managing users, courses and lessons. It uses [JWT](https://jwt.io/) for authorization.
 
-## SignUp/SignIn
+## SignUp
+Create a simple account with no roles.
 ```
   POST /signup
     { email: 'email@example.com', password: '111', password_confirmation: '111' }
     Response:
       - 201 Created | json: {}
       - 409 Conflict | json: { message: <message> }
+```
 
+## SignIn
+Simple authentication with email/password credentials. Returns a valid JWT which can
+be used for authorization.
+```
   POST /signin
     { email: 'email@example.com', password: '111' }
     Response:
       - 201 Created | json: { token: <jwt> }
       - 409 Conflict | json: { message: <message> }
 ```
+
+Then, at any endpoint, the token can be sent as HTTP header:
+```
+Authorization: Bearer <token>
+```
+
 ## Users
 ```
   POST /users
@@ -39,6 +51,7 @@ API for EdUp.
       - 404 NotFound
       - 403 Forbidden
 ```
+
 ## Courses
 ```
   POST /courses
@@ -93,7 +106,7 @@ API for EdUp.
       - 404 NotFound
       - 403 Forbidden
 
-  GET /lessons/123-lesson-uuid?course_id=1234-course-uuid
+  GET /lessons/123-lesson-uuid
     Authorization: <jwt>
     Response:
       - 200 OK | json: { id: '123-lesson-uuid', name: 'Basics' }
@@ -101,7 +114,7 @@ API for EdUp.
       - 403 Forbidden
 
   UPDATE /lessons/1234-lesson-uuid
-    { lesson: { name: 'Basics' }, course_id: '1234-uuid' }
+    { lesson: { name: 'Basics' }}
     Authorization: <jwt>
     Response:
       - 200 OK
@@ -109,15 +122,61 @@ API for EdUp.
       - 403 Forbidden
 
   DELETE /lessons/1234-uuid
-    { course_id: '1234-course-uuid' }
     Authorization: <jwt>
     Response:
       - 200 OK
       - 404 NotFound
       - 403 Forbidden
 ```
-### Testing
+### Upload an mp4 video on a lesson
+The upload works using the same `UPDATE` enpoint, but it looks for a parameter called `upload`
+which must contain two keys: `src` (the content encoded using base64) and `title` (the upload filename).
+
+In case the `upload` parameter is not sent, it performs as a normal update action.
+```
+  UPDATE /lessons/1234-lesson-uuid
+    {
+      lesson: { name: 'Basics' },
+      upload: { src: <base64_encoded>, title: 'my_upload.mp4' }
+    }
+    Authorization: <jwt>
+    Response:
+      - 200 OK
+      - 404 NotFound
+      - 403 Forbidden
+```
+
+## Development and Testing
+This project was tested under OSX using the following technologies:
+
+  * Ruby 2.5
+  * Rails 5.2+
+  * PostgreSQL 10.5
+
+#### Setup data
+Reset and seed data.
+```
+  ./bin/rake db:reset db:migrate db:seed
+  ./bin/rake db:reset db:migrate RAILS_ENV=test
+```
+Now you can perform a `signin` using a `publisher` credentials:
+
+  * email: publisher@example.com
+  * password: pa$$w0rd
+
+Look at the `db/seeds.rb` file for further details at the created data.
+
+#### Testing
 ```
   ./bin/rspec
   open coverage/index.html
+
+  # TDD
+  bundle exec guard
 ```
+
+#### Running
+```
+./bin/rails -p 4001
+```
+Open http://localhost:4001
