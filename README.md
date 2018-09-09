@@ -2,6 +2,7 @@
 
   * [EdUp API (backend)](https://bitbucket.org/leandronsp/edup/src/master/edup-api/README.md)
   * [EdUp Web (frontend)](https://bitbucket.org/leandronsp/edup/src/master/edup-web/README.md)
+  * [See screenshots](https://bitbucket.org/leandronsp/edup/src/master/SCREENSHOTS.md)
 
 ## Requirements
 
@@ -45,7 +46,7 @@ pa$$w0rd
 
 ## Screenshots
 
-#### As a publisher, manage the courses, create content and publish to students.
+#### As a publisher, manage the courses, create content and publish them to students.
 
 ![Manage Courses](_screenshots/manage_courses.png)
 
