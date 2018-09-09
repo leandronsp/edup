@@ -31,7 +31,7 @@ Running the frontend app:
   yarn start
 ```
 
-Open http://localhost:4000 and use credentials to perform the login.
+Open http://localhost:3000 and use credentials to perform the login.
 ```
 # publisher
 publisher@example.com

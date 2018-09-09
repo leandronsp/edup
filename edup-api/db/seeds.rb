@@ -15,7 +15,7 @@ publisher = User.create(email: 'publisher@example.com', password: 'pa$$w0rd', pa
 RoleService.attach(student_role, student)
 RoleService.attach(publisher_role, publisher)
 
-ruby_course = Course.create(name: 'Ruby programming')
+ruby_course = Course.create(name: 'Ruby programming', published: true)
 node_course = Course.create(name: 'Node programming')
 java_course = Course.create(name: 'Java programming')
 
