@@ -11,10 +11,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    render json: (User.all.map do |user|
-      roles = user.roles.map(&:name)
-      user.as_json.merge(roles: roles)
-    end)
+    render json: User.all.map(&method(:serialize_with_roles_names))
   end
 
   def show
@@ -23,6 +20,11 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def serialize_with_roles_names(user)
+    roles = user.roles.map(&:name)
+    user.as_json.merge(roles: roles)
+  end
 
   def user_params
     params.require(:user).permit(:email)

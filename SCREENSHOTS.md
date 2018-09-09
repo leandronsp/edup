@@ -12,7 +12,7 @@
 
 ![Manage Lesson](_screenshots/manage_lesson.png)
 
-## As a student, see the lessons for a couse and preview the videos
+## As a student, see the lessons for a course and preview the videos
 
 ![Student Lessons](_screenshots/student_lessons.png)
 

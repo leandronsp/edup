@@ -23,15 +23,7 @@ class LessonsController < ApplicationController
 
   def show
     lesson = Lesson.find(params[:id])
-    if lesson.upload.present? && lesson.upload.attached?
-      upload_url = rails_blob_url(lesson.upload)
-      upload_filename = lesson.upload.filename
-    end
-
-    render json: lesson.as_json.merge(
-      upload_url: upload_url,
-      upload_filename: upload_filename
-    )
+    render json: serialize_with_upload_data(lesson)
   end
 
   def update
@@ -44,6 +36,15 @@ class LessonsController < ApplicationController
   end
 
   private
+
+  def serialize_with_upload_data(lesson)
+    return lesson.as_json if lesson.upload.blank? || !lesson.upload.attached?
+
+    upload_url = rails_blob_url(lesson.upload)
+    upload_filename = lesson.upload.filename
+
+    lesson.as_json.merge(upload_url: upload_url, upload_filename: upload_filename)
+  end
 
   def ensure_course_presence
     @course ||= Course.find(params[:course_id])

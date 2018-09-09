@@ -11,27 +11,14 @@ class CoursesController < ApplicationController
     course = Course.find(params[:id])
     EnrollmentService.enroll(current_user, course) if authorize?('student')
 
-    lessons_as_json = course.lessons.map do |lesson|
-      if lesson.upload.present? && lesson.upload.attached?
-        upload_url = rails_blob_url(lesson.upload)
-        upload_filename = lesson.upload.filename
-      end
-
-      lesson.as_json.merge(
-        upload_url: upload_url,
-        upload_filename: upload_filename
-      )
-    end
-
-    render json: course.as_json(include: [:students]).merge(lessons: lessons_as_json)
+    render json: serialize_with_students_and_lessons(course)
   end
 
   def index
     scope = authorize?('publisher') ? Course : Course.published
+    courses = scope.order(created_at: :asc)
 
-    render json: (scope.order(created_at: :asc).map do |course|
-      course.as_json(include: :students)
-    end)
+    render json: courses.map(&method(:serialize_with_students))
   end
 
   def destroy
@@ -49,6 +36,26 @@ class CoursesController < ApplicationController
   end
 
   private
+
+  def serialize_with_students(course)
+    course.as_json(include: [:students])
+  end
+
+  def serialize_with_students_and_lessons(course)
+    lessons_as_json = course.lessons.map do |lesson|
+      if lesson.upload.present? && lesson.upload.attached?
+        upload_url = rails_blob_url(lesson.upload)
+        upload_filename = lesson.upload.filename
+      end
+
+      lesson.as_json.merge(
+        upload_url: upload_url,
+        upload_filename: upload_filename
+      )
+    end
+
+    serialize_with_students(course).merge(lessons: lessons_as_json)
+  end
 
   def course_params
     params.require(:course).permit(:name, :published)
