@@ -180,3 +180,8 @@ Look at the `db/seeds.rb` file for further details at the created data.
 ./bin/rails -p 4001
 ```
 Open http://localhost:4001
+
+## TODO
+
+  * add proper Serializers
+  * implement JWT expiration
