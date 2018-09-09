@@ -30,6 +30,7 @@ pa$$w0rd
 ```
 
 #### Testing
+Requires `brew install watchman`
 ```
 yarn test
 ```
