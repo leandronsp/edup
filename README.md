@@ -42,3 +42,6 @@ student@example.com
 # password
 pa$$w0rd
 ```
+
+## Screenshots
+![Manage Courses](_screenshots/manage_courses.png)
