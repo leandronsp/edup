@@ -34,3 +34,7 @@ Requires `brew install watchman`
 ```
 yarn test
 ```
+
+## TODO
+
+  * Improve test suite
